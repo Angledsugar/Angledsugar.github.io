@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Auto Climbing Mopping Robot(ACMR)"
-date:   2020-04-04
+date:   2020-04-16
 excerpt: "2020 Project"
 tag:
 - project 
