@@ -11,7 +11,7 @@ related_publications: true
 <div class="row mt-3">
   <div class="col-12 text-center">
     <h2 class="mb-2"><strong>Critical-Phase Detection for Vision-Language-Action Policies</strong></h2>
-    <p class="mb-1"><a href="/">Angledsugar</a></p>
+    <p class="mb-1"><a href="/">Chanyeok Choi</a></p>
     <p class="text-muted mb-3"><em>Hanyang University</em></p>
     <p class="mb-3">
       <span class="badge bg-primary" style="font-size: 0.95em;">CoRL 2026 · Under review</span>
@@ -138,9 +138,9 @@ The separation is essentially clean — the F1 ceiling is set by failure-pool si
 ## BibTeX {#bibtex}
 
 ```bibtex
-@inproceedings{angledsugar2026cpd,
+@inproceedings{choi2026cpd,
   title     = {Critical-Phase Detection for Vision-Language-Action Policies},
-  author    = {Angledsugar},
+  author    = {Choi, Chanyeok},
   booktitle = {Conference on Robot Learning (CoRL)},
   year      = {2026},
   note      = {Under review},
