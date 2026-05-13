@@ -30,24 +30,48 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-teaching",
+          title: "teaching",
+          description: "Courses I have taught as a graduate teaching assistant at Hanyang University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/teaching/";
+          },
+        },{id: "nav-cv",
+          title: "cv",
+          description: "Chanyeok Choi — Robot engineer, MS in Applied AI at Hanyang University.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/cv/";
+          },
         },{id: "news-submitted-critical-phase-detection-for-vision-language-action-policies-to-corl-2026",
           title: 'Submitted “Critical-Phase Detection for Vision-Language-Action Policies” to CoRL 2026.',
           description: "",
-          section: "News",},{id: "projects-cpd",
-          title: 'CPD',
-          description: "Critical-Phase Detection for Vision-Language-Action Policies — CoRL 2026 (under review)",
+          section: "News",},{id: "projects-critical-phase-detection-for-vision-language-action-policies",
+          title: 'Critical-Phase Detection for Vision-Language-Action Policies',
+          description: "CoRL 2026 (under review)",
           section: "Projects",handler: () => {
               window.location.href = "/projects/0_cpd/";
-            },},{id: "projects-acmr",
-          title: 'ACMR',
-          description: "Auto Climbing Mopping Robot — wall-climbing mobile platform with onboard mopping module (2020).",
+            },},{id: "projects-auto-climbing-mopping-robot",
+          title: 'Auto Climbing Mopping Robot',
+          description: "Wall-climbing mobile platform with onboard mopping module.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
-            },},{id: "projects-datp",
-          title: 'DATP',
-          description: "Delivery Any Thing Project — autonomous last-mile delivery platform (2019).",
+            },},{id: "projects-delivery-any-thing-project",
+          title: 'Delivery Any Thing Project',
+          description: "Autonomous last-mile delivery platform.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
+            },},{id: "projects-poisoning-attacks-on-multi-agent-reinforcement-learning-systems",
+          title: 'Poisoning Attacks on Multi-Agent Reinforcement Learning Systems',
+          description: "Humanoids 2025 (Late-Breaking Report).",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_poisoning/";
+            },},{id: "projects-snapbot-enabling-dynamic-human-robot-interactions-for-real-time-computational-photography",
+          title: 'Snapbot: Enabling Dynamic Human-Robot Interactions for Real-Time Computational Photography',
+          description: "HRI 2024 (Late-Breaking Report).",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/4_snapbot/";
             },},{
         id: 'social-email',
         title: 'email',
@@ -63,11 +87,11 @@ ninja.data = [{
           window.open("https://github.com/Angledsugar", "_blank");
         },
       },{
-        id: 'social-facebook',
-        title: 'Facebook',
+        id: 'social-linkedin',
+        title: 'LinkedIn',
         section: 'Socials',
         handler: () => {
-          window.open("https://facebook.com/angledsugar", "_blank");
+          window.open("https://www.linkedin.com/in/chanyeok-choi-b0b637117", "_blank");
         },
       },{
         id: 'social-rss',
