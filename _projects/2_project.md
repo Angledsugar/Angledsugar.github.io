@@ -1,14 +1,16 @@
 ---
 layout: page
-title: DATP
-description: Delivery Any Thing Project — autonomous last-mile delivery platform (2019).
+title: Delivery Any Thing Project
+description: Autonomous last-mile delivery platform.
 img: assets/img/3.jpg
 importance: 2
 category: hardware
+abbr: 2019
+year: 2019
 related_publications: false
 ---
 
-**DATP (Delivery Any Thing Project)** is an autonomous ground-delivery platform built for last-mile parcel transport in semi-structured environments — campus pathways, apartment complexes, and pedestrian zones.
+An autonomous ground-delivery platform built for last-mile parcel transport in semi-structured environments — campus pathways, apartment complexes, and pedestrian zones.
 
 ## Why
 

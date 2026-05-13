@@ -73,10 +73,11 @@
 
       .author {
         a {
-          border-bottom: 1px dashed var(--global-theme-color);
+          color: inherit;
+          border-bottom: none;
 
           &:hover {
-            border-bottom-style: solid;
+            color: var(--global-theme-color);
             text-decoration: none;
           }
         }

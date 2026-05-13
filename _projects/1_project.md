@@ -1,14 +1,16 @@
 ---
 layout: page
-title: ACMR
-description: Auto Climbing Mopping Robot — wall-climbing mobile platform with onboard mopping module (2020).
+title: Auto Climbing Mopping Robot
+description: Wall-climbing mobile platform with onboard mopping module.
 img: assets/img/12.jpg
 importance: 1
 category: hardware
+abbr: 2020
+year: 2020
 related_publications: false
 ---
 
-**ACMR (Auto Climbing Mopping Robot)** is a wall-climbing service robot designed to clean large vertical glass surfaces — building façades and tall interior windows — without scaffolding or human operators.
+A wall-climbing service robot designed to clean large vertical glass surfaces — building façades and tall interior windows — without scaffolding or human operators.
 
 ## Why
 

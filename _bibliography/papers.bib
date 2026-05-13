@@ -1,17 +1,80 @@
 ---
 ---
 
-@inproceedings{choi2026cpd,
-  abbr        = {CoRL},
+@article{choi2026cpd,
+  abbr        = {Preprint},
   bibtex_show = {true},
   selected    = {true},
   title       = {Critical-Phase Detection for Vision-Language-Action Policies},
-  author      = {Choi, Chanyeok},
-  booktitle   = {Conference on Robot Learning (CoRL)},
+  author      = {Choi, Chanyeok and Lee, Youngmoon},
+  journal     = {Preprint},
   year        = {2026},
-  note        = {Under review},
-  html        = {https://angledsugar.github.io/projects/0_cpd/},
+  note        = {Under review at CoRL 2026},
+  html        = {/projects/0_cpd/},
   code        = {https://github.com/Angledsugar/critical-phase-detector},
   abstract    = {We introduce a zero-shot critical-phase detector (CPD) for frozen vision-language-action policies. CPD couples a temporal-distance latent representation (TLDR) encoder with a self-supervised goal-reachability (G2) labeler, then scores each rollout step by a kernel-density log-ratio between the success and failure latent buffers. On LIBERO-Long with frozen π₀ and π₀.₅ backbones, CPD attains a leave-one-out F1 of 0.86--0.89 for trajectory-level failure detection without any task-specific reward or success label, and we prove a consistency bound between the G2 self-label and the ground-truth success predicate under mild assumptions on the latent geometry.},
   keywords    = {vision-language-action, manipulation, failure detection, self-supervised learning, LIBERO}
+}
+
+@inproceedings{choi2025poisoning,
+  abbr        = {Humanoids},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {Poisoning Attacks on Multi-Agent Reinforcement Learning Systems},
+  author      = {Choi, Chanyeok and Cho, Jaehwan and Lee, Youngmoon},
+  booktitle   = {IEEE-RAS International Conference on Humanoid Robots (Humanoids), Late-Breaking Report},
+  year        = {2025},
+  html        = {/projects/3_poisoning/},
+  abstract    = {We study reward-poisoning adversarial attacks on cooperative multi-agent reinforcement learning, including controllers for taxi ride-sharing fleets, and characterize the attack budgets under which policy degradation becomes observable.},
+  keywords    = {multi-agent reinforcement learning, adversarial attacks, reward poisoning}
+}
+
+@inproceedings{ahmad2024haptics,
+  abbr        = {ICPR},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {{HAPtics}: Human Action Prediction in Real-time via Pose Kinematics},
+  author      = {Ahmad, Niaz and Ullah, Saif and Khan, Jawad and Choi, Chanyeok and Lee, Youngmoon},
+  booktitle   = {International Conference on Pattern Recognition (ICPR)},
+  address     = {Kolkata, India},
+  year        = {2024},
+  doi         = {10.1007/978-3-031-78354-8_10},
+  keywords    = {human pose, action prediction, vision}
+}
+
+@inproceedings{choi2024drone,
+  abbr        = {ISLPED},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {Causes and Fixes of Unexpected Drone Shutoffs},
+  author      = {Choi, Hojun and Choi, Chanyeok and Lee, Youngmoon},
+  booktitle   = {ACM/IEEE International Symposium on Low Power Electronics and Design (ISLPED)},
+  year        = {2024},
+  doi         = {10.1145/3665314.3670847},
+  keywords    = {drones, reliability, field robotics}
+}
+
+@inproceedings{choi2024snapbot,
+  abbr        = {HRI},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {{Snapbot}: Enabling Dynamic Human-Robot Interactions for Real-Time Computational Photography},
+  author      = {Choi, Chanyeok and Lee, Youngmoon},
+  booktitle   = {ACM/IEEE International Conference on Human-Robot Interaction (HRI), Late-Breaking Report},
+  year        = {2024},
+  html        = {/projects/4_snapbot/},
+  abstract    = {Snapbot is a manipulator-based photography system that frames, composes, and captures stylized portraits in real time, treating the human subject as a dynamic interaction partner rather than a static target.},
+  keywords    = {human-robot interaction, manipulation, computational photography}
+}
+
+@inproceedings{khan2023ssk,
+  abbr        = {ICDM-W},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {{SSK-DNN}: Semantic and Sentiment Knowledge for Incremental Text Sentiment Classification},
+  author      = {Khan, Jawad and Ahmad, Niaz and Choi, Chanyeok and Ullah, Saif and Kim, Gyu Rin and Lee, Youngmoon},
+  booktitle   = {IEEE ICDM Workshop on Incremental Learning (IncrLearn)},
+  address     = {Shanghai, China},
+  year        = {2023},
+  keywords    = {natural language processing, sentiment classification, incremental learning}
 }

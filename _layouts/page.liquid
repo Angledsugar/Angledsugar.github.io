@@ -8,10 +8,17 @@ layout: default
   </style>
 {% endif %}
 
+{% assign is_project_detail = false %}
+{% if page.url contains '/projects/' and page.url != '/projects/' %}
+  {% assign is_project_detail = true %}
+{% endif %}
+
 <div class="post">
-  <header class="post-header">
+  <header class="post-header{% if is_project_detail %} project-detail-header{% endif %}">
     <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-description">{{ page.description }}</p>
+    {% unless is_project_detail %}
+      <p class="post-description">{{ page.description }}</p>
+    {% endunless %}
   </header>
 
   <article>

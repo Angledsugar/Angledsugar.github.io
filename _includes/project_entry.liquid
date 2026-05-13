@@ -1,0 +1,39 @@
+<li>
+  <div class="row">
+    <div class="col col-sm-2 abbr">
+      {%- if project.abbr -%}
+        <abbr class="badge rounded w-100">{{ project.abbr }}</abbr>
+      {%- elsif project.year -%}
+        <abbr class="badge rounded w-100">{{ project.year }}</abbr>
+      {%- endif -%}
+      {%- if project.img -%}
+        {% include figure.liquid loading="eager" path=project.img sizes="200px" class="preview z-depth-1 rounded" zoomable=true avoid_scaling=true alt=project.title %}
+      {%- endif -%}
+    </div>
+    <div class="col-sm-8">
+      <div class="title">
+        <a href="{% if project.redirect %}{{ project.redirect }}{% else %}{{ project.url | relative_url }}{% endif %}">{{ project.title }}</a>
+      </div>
+      {%- if project.authors -%}
+        <div class="author">{{ project.authors }}</div>
+      {%- endif -%}
+      {%- if project.description -%}
+        <div class="periodical">{{ project.description }}</div>
+      {%- endif -%}
+      <div class="links">
+        {%- unless project.redirect -%}
+          <a href="{{ project.url | relative_url }}" class="btn btn-sm z-depth-0" role="button">Details</a>
+        {%- endunless -%}
+        {%- if project.github -%}
+          <a href="{{ project.github }}" class="btn btn-sm z-depth-0" role="button" target="_blank">Code</a>
+        {%- endif -%}
+        {%- if project.paper -%}
+          <a href="{{ project.paper }}" class="btn btn-sm z-depth-0" role="button" target="_blank">Paper</a>
+        {%- endif -%}
+        {%- if project.redirect -%}
+          <a href="{{ project.redirect }}" class="btn btn-sm z-depth-0" role="button" target="_blank">Link</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</li>

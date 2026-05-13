@@ -1,18 +1,21 @@
 ---
 layout: page
-title: CPD
-description: Critical-Phase Detection for Vision-Language-Action Policies — CoRL 2026 (under review)
+title: Critical-Phase Detection for Vision-Language-Action Policies
+description: CoRL 2026 (under review)
 img: assets/img/projects/cpd/overview.png
 importance: 0
 category: research
+abbr: 2026
+year: 2026
+authors: Chanyeok Choi, Youngmoon Lee
+github: https://github.com/Angledsugar/critical-phase-detector
 related_publications: true
 ---
 
-<div class="row mt-3">
+<div class="row">
   <div class="col-12 text-center">
-    <h2 class="mb-2"><strong>Critical-Phase Detection for Vision-Language-Action Policies</strong></h2>
-    <p class="mb-1"><a href="/">Chanyeok Choi</a></p>
-    <p class="text-muted mb-3"><em>Hanyang University</em></p>
+    <p class="mb-1"><a href="/">Chanyeok Choi</a><sup>1*</sup>, <a href="https://sites.google.com/umich.edu/youngmoonlee/home">Youngmoon Lee</a><sup>1</sup></p>
+    <p class="text-muted mb-3" style="font-size: 0.9em;"><sup>1</sup> Hanyang University</p>
     <p class="mb-3">
       <span class="badge bg-primary" style="font-size: 0.95em;">CoRL 2026 · Under review</span>
     </p>

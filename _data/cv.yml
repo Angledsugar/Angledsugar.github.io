@@ -1,189 +1,174 @@
 cv:
-  name: Albert Einstein
-  label: Scientist
-  email: einstein@example.com
-  location: Princeton, NJ
-  image: ""
-  summary: A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time
+  name: Chanyeok Choi
+  label: Robot Engineer · MS in Applied AI, Hanyang University
+  email: angledsugar@gmail.com
+  location: Seoul, South Korea
+  image: prof_pic.jpg
+  summary: >
+    Robot engineer working on **critical-phase detection** for vision-language-action policies
+    (CoRL 2026, under review). Broader interests: safe and generalizable robot learning, multi-agent
+    reinforcement learning, and sim-to-real transfer. Previously built field-deployed service robots
+    (auto-climbing mopping platform, autonomous delivery platform) — most of my intuition about
+    real-world control and edge cases comes from there.
 
   social_networks:
-    - network: X
-      username: AlbertEinstein
     - network: GitHub
-      username: example
+      username: Angledsugar
     - network: LinkedIn
-      username: example
-
-  address:
-    street: 2712 Broadway St
-    city: San Francisco
-    region: California
-    postalCode: CA 94115
-    countryCode: US
+      username: chanyeok-choi-b0b637117
 
   sections:
     Education:
-      - institution: University of Zurich
-        location: Zurich, Switzerland
-        url: https://www.uzh.ch/
-        area: Physics
-        studyType: PhD
-        start_date: 1900
-        end_date: 1905
-        score: ""
-        courses: "Theory of Relativity"
+      - institution: Hanyang University
+        location: Seoul, South Korea
+        url: https://www.hanyang.ac.kr/
+        area: Applied Artificial Intelligence
+        studyType: MS
+        start_date: 2022-02
+        end_date: present
+        score: GPA 3.4/4.0
         highlights:
-          - Description 1.
-          - Description 2.
+          - "Advisor: Prof. Youngmoon Lee"
+          - Research on safety-RL, poisoning attacks on multi-agent RL, and vision-language-action policy failure detection.
 
-      - institution: Eidgenössische Technische Hochschule
-        location: Zurich, Switzerland
-        area: Physics
-        studyType: Federal teaching diploma
-        start_date: 1896
-        end_date: 1900
+      - institution: Hanyang University
+        location: Seoul, South Korea
+        url: https://www.hanyang.ac.kr/
+        area: Robotics
+        studyType: BS
+        start_date: 2018-03
+        end_date: 2022-02
+        score: GPA 3.4/4.0
         highlights:
-          - Description 1.
-          - Description 2.
+          - "Advisors: Prof. Youngmoon Lee, Prof. Taejoon Park, Prof. Changsoo Han"
 
     Experience:
-      - company: Institute for Advanced Study, Princeton University
-        position: Professor of Theoretical Physics
-        location: Princeton University, NJ
-        start_date: 1933
-        end_date: 1955
-        summary: Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.
+      - company: Hanyang University
+        position: Graduate Research Assistant
+        location: Seoul, South Korea
+        start_date: 2022-03
+        end_date: present
+        summary: >
+          Robot learning research under Prof. Youngmoon Lee.
         highlights:
-          - Relativity
-          - Description 2.
+          - "**Critical-Phase Detection (CPD)**: zero-shot failure detection for frozen π₀ / π₀.₅ VLA policies on LIBERO manipulation. Leave-one-out F1 0.86–0.89 with no per-task reward (CoRL 2026, under review)."
+          - "**Poisoning attacks on multi-agent RL**: adversarial reward-poisoning study on multi-agent control, including taxi ride-sharing systems."
+          - "**Safety-RL**: bridging the sim-to-real gap by allowing safe optimization and exploration during robot learning."
+          - "**Vision (HumanPose)**: hybrid PoseNet/SegNet approach for crowded scenes with overlap and occlusion."
 
-      - company: California Institute of Technology
-        position: Visiting Professor
-        location: Pasadena, California, US
-        start_date: 1933
-        end_date: 1933
+      - company: KITECH — Process Platform Research Division
+        position: Research Intern
+        location: South Korea
+        start_date: 2021-03
+        end_date: 2021-08
         highlights:
-          - Description 1.
-          - Description 2.
+          - Researched AI methods for detecting defective products on high-speed conveyor belts.
 
-      - company: Kaiser Wilhelm Institute for Physics
-        position: Director
-        location: Berlin, Germany
-        start_date: 1917
-        end_date: 1933
-
-      - company: Karl-Ferdinand University
-        position: Professor of Theoretical Physics
-        location: Prague, Czechoslovakia
-        start_date: 1911
-        end_date: 1917
-
-      - company: University of Zurich
-        position: Associate Professor of Theoretical Physics
-        location: Zurich, Switzerland
-        start_date: 1909
-        end_date: 1911
-
-    Volunteer:
-      - company: People's Climate March
-        position: Lead Organizer
-        location: Zurich, Switzerland
-        start_date: 2014-04-01
-        end_date: 2015-07-01
-        summary: Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.
+      - company: Hanyang University — CAI Lab
+        position: Research Intern
+        location: Seoul, South Korea
+        start_date: 2019-07
+        end_date: 2020-02
         highlights:
-          - "Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march."
-          - "Men of the year 2014 by Time magazine"
-
-    Awards:
-      - title: Nobel Prize in Physics
-        authors:
-          - "Royal Swedish Academy of Sciences"
-        date: 1921-11-01
-        awarder: Royal Swedish Academy of Sciences
-        url: https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/
-        summary: The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'
-
-      - title: Max Planck Medal
-        authors:
-          - "German Physical Society"
-        date: 2029
-        awarder: German Physical Society
-        summary: Awarded for outstanding scientific achievement
+          - "[IKEA Furniture Assembly Collaborative Robot](https://www.youtube.com/watch?v=CTon4sS2iFs): RL simulation in which two manipulators identify randomly placed furniture parts and assemble them collaboratively."
 
     Publications:
-      - title: Zur Elektrodynamik bewegter Körper
+      - title: Critical-Phase Detection for Vision-Language-Action Policies
         authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1905-06-30
-        url: https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies
-        summary: It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source.
+          - Chanyeok Choi
+          - Youngmoon Lee
+        publisher: "Preprint (under review at CoRL 2026)"
+        releaseDate: 2026
+        url: /projects/0_cpd/
+        summary: Zero-shot per-step failure detector for frozen π₀ / π₀.₅ VLA policies.
 
-      - title: Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt
+      - title: Poisoning Attacks on Multi-Agent Reinforcement Learning Systems
         authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1905-03-18
-        url: https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt
-        summary: In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921.
+          - Chanyeok Choi
+          - Jaehwan Cho
+          - Youngmoon Lee
+        publisher: "IEEE-RAS International Conference on Humanoid Robots (Humanoids), Late-Breaking Report"
+        releaseDate: 2025
 
-      - title: Die Grundlage der allgemeinen Relativitätstheorie
+      - title: "HAPtics: Human Action Prediction in Real-time via Pose Kinematics"
         authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1916-03-20
-        url: https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie
-        summary: The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914).
+          - Niaz Ahmad
+          - Saif Ullah
+          - Jawad Khan
+          - Chanyeok Choi
+          - Youngmoon Lee
+        publisher: "International Conference on Pattern Recognition (ICPR), Kolkata, India"
+        releaseDate: 2024
+
+      - title: Causes and Fixes of Unexpected Drone Shutoffs
+        authors:
+          - Hojun Choi
+          - Chanyeok Choi
+          - Youngmoon Lee
+        publisher: "ACM/IEEE International Symposium on Low Power Electronics and Design (ISLPED)"
+        releaseDate: 2024
+
+      - title: "Snapbot: Enabling Dynamic Human Robot Interactions for Real-Time Computational Photography"
+        authors:
+          - Chanyeok Choi
+          - Youngmoon Lee
+        publisher: "ACM/IEEE International Conference on Human-Robot Interaction (HRI), Late-Breaking Report"
+        releaseDate: 2024
+
+      - title: "SSK-DNN: Semantic and Sentiment Knowledge for Incremental Text Sentiment Classification"
+        authors:
+          - Jawad Khan
+          - Niaz Ahmad
+          - Chanyeok Choi
+          - Saif Ullah
+          - Gyu Rin Kim
+          - Youngmoon Lee
+        publisher: IEEE ICDM Workshop on Incremental Learning (IncrLearn), Shanghai, China
+        releaseDate: 2023
+
+    Awards:
+      - title: Information & Communication Planning and Evaluation President Award (2nd place)
+        date: 2023
+        awarder: SW Talent Festival
+        summary: "*AnimeGAN Filter Photographer*: a manipulator that frames and captures stylized portraits under safety-RL constraints."
+
+      - title: Capstone Design Award (3rd place)
+        date: 2021
+        awarder: Hanyang University
+        url: https://github.com/Angledsugar/GuideRobotDog
+        summary: "*Guide Robot Dog*: a full-stack quadruped robot motivated by guide dogs, intended to assist visually impaired pedestrians."
+
+    Teaching:
+      - label: Lead Teaching Assistant — Robot Vision System
+        details: Hanyang University, Fall 2022 & Fall 2023. Lead other graduate TAs for a class of 30–40 students; developed an autonomous robot training and vision environment in Unity. [[Materials](https://github.com/Angledsugar/RobotVisionSystem)]
+
+      - label: Teaching Assistant — Robot Learning
+        details: Hanyang University, Spring 2022 & Spring 2023. Class of 40–50 students. Designed a Pac-Man RL project and an ultrasonic-sensor self-driving car kit for real-world maze escape. [[Materials](https://github.com/Angledsugar/RobotVisionSystem)]
 
     Skills:
-      - name: Physics
-        level: Master
-        icon: fa-solid fa-hashtag
-        keywords: "Quantum Mechanics, Quantum Computing, Quantum Information, Quantum Cryptography, Quantum Communication, Quantum Teleportation"
+      - name: Robot Learning
+        level: Advanced
+        icon: fa-solid fa-robot
+        keywords: "Reinforcement Learning, Safety-RL, Sim-to-Real, Vision-Language-Action, Multi-Agent RL, Adversarial / Poisoning Attacks"
+
+      - name: Perception
+        level: Intermediate
+        icon: fa-solid fa-eye
+        keywords: "Human Pose Estimation, Segmentation, Self-Supervised Representation Learning"
+
+      - name: Engineering
+        level: Advanced
+        icon: fa-solid fa-screwdriver-wrench
+        keywords: "Python, PyTorch, ROS, Unity, C++, Embedded Control, Field Robotics"
 
     Languages:
-      - name: German
-        summary: "Native speaker"
+      - name: Korean
+        summary: Native speaker
 
       - name: English
-        summary: "Fluent"
+        summary: Professional working proficiency
 
     Interests:
-      - name: Physics
+      - name: Research Interests
         icon: fa-solid fa-tag
-        keywords: "Quantum Mechanics, Quantum Computing, Quantum Information, Quantum Cryptography, Quantum Communication, Quantum Teleportation"
-
-    Certificates:
-      - name: Machine Learning
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-location-dot
-
-      - name: Quantum Computing
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-tag
-
-      - name: Quantum Information
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-envelope
-
-    Projects:
-      - name: Quantum Computing
-        summary: Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.
-        highlights:
-          - Quantum Teleportation
-          - Quantum Cryptography
-        start_date: 2018-01-01
-        end_date: 2018-01-01
-
-    References:
-      - name: Professor John Doe
-        icon: fa-solid fa-laptop
-        reference: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit.
-
-      - name: Professor Jane Smith
-        icon: fa-solid fa-thumbtack
-        reference: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit.
+        keywords: "Vision-Language-Action policies, failure / critical-phase detection, safe robot learning, sim-to-real transfer, multi-agent RL, human-robot interaction"
