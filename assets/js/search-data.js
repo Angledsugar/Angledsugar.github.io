@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "A growing collection of your cool projects.",
+          description: "Research and hardware projects.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -33,7 +33,12 @@ ninja.data = [{
         },{id: "news-submitted-critical-phase-detection-for-vision-language-action-policies-to-corl-2026",
           title: 'Submitted “Critical-Phase Detection for Vision-Language-Action Policies” to CoRL 2026.',
           description: "",
-          section: "News",},{id: "projects-acmr",
+          section: "News",},{id: "projects-cpd",
+          title: 'CPD',
+          description: "Critical-Phase Detection for Vision-Language-Action Policies — CoRL 2026 (under review)",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/0_cpd/";
+            },},{id: "projects-acmr",
           title: 'ACMR',
           description: "Auto Climbing Mopping Robot — wall-climbing mobile platform with onboard mopping module (2020).",
           section: "Projects",handler: () => {
