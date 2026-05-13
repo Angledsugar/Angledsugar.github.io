@@ -27,5 +27,5 @@ Last-mile delivery is the most expensive segment of logistics, and the labor cos
 
 The hard part wasn't navigation — it was **predicting pedestrian intent**. A reactive avoidance policy is fine until two people approach from different angles and you have to choose who to yield to; humans do this with eye contact and we don't have a clean signal for it. We ended up biasing the planner to be conservative and just stop when ambiguity got high — slower but socially acceptable. The general lesson — that **knowing when not to act is half the problem** — is one of the threads that runs through my current research on critical-phase detection.
 
-*Year:* 2019.
-*Role:* Co-developer.
+_Year:_ 2019.
+_Role:_ Co-developer.

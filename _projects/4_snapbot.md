@@ -31,14 +31,14 @@ related_publications: true
 
 ## Why this matters
 
-Existing robotic photography demos either (a) wait for the human to hold still and then take a fixed shot, or (b) record continuously and post-process. Both miss the interactive feedback loop that makes a portrait *good*: the photographer suggesting a pose, the subject responding, the photographer re-framing. Snapbot is an attempt to put a robot inside that loop.
+Existing robotic photography demos either (a) wait for the human to hold still and then take a fixed shot, or (b) record continuously and post-process. Both miss the interactive feedback loop that makes a portrait _good_: the photographer suggesting a pose, the subject responding, the photographer re-framing. Snapbot is an attempt to put a robot inside that loop.
 
 ## What we built
 
 - **Platform**: a 6-DoF manipulator with an end-effector-mounted camera, framed as a real-time vision-control system.
 - **Composition policy**: a lightweight head-pose and rule-of-thirds estimator that scores candidate viewpoints and drives the manipulator toward the highest-scoring one.
 - **Stylization**: an AnimeGAN filter pipeline that runs on the live preview, so the subject sees the stylized output as they pose.
-- **Shutter timing**: triggers when the composition score crosses a threshold *and* the subject's head pose is stable for ≥ 200ms — captures the intentional pose, not the transition.
+- **Shutter timing**: triggers when the composition score crosses a threshold _and_ the subject's head pose is stable for ≥ 200ms — captures the intentional pose, not the transition.
 
 ## What we showed at HRI 2024
 

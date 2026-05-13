@@ -1,15 +1,8 @@
 cv:
   name: Chanyeok Choi
-  label: Robot Engineer · MS in Applied AI, Hanyang University
+  headline: Robot Engineer · MS in Applied AI, Hanyang University
   email: angledsugar@gmail.com
   location: Seoul, South Korea
-  image: prof_pic.jpg
-  summary: >
-    Robot engineer working on **critical-phase detection** for vision-language-action policies
-    (CoRL 2026, under review). Broader interests: safe and generalizable robot learning, multi-agent
-    reinforcement learning, and sim-to-real transfer. Previously built field-deployed service robots
-    (auto-climbing mopping platform, autonomous delivery platform) — most of my intuition about
-    real-world control and edge cases comes from there.
 
   social_networks:
     - network: GitHub
@@ -18,6 +11,9 @@ cv:
       username: chanyeok-choi-b0b637117
 
   sections:
+    Profile:
+      - Robot engineer working on **critical-phase detection** for vision-language-action policies (CoRL 2026, under review). Broader interests&#58; safe and generalizable robot learning, multi-agent reinforcement learning, and sim-to-real transfer. Previously built field-deployed service robots (auto-climbing mopping platform, autonomous delivery platform) — most of my intuition about real-world control and edge cases comes from there.
+
     Education:
       - institution: Hanyang University
         location: Seoul, South Korea
@@ -78,8 +74,8 @@ cv:
           - Chanyeok Choi
           - Youngmoon Lee
         publisher: "Preprint (under review at CoRL 2026)"
-        releaseDate: 2026
-        url: /projects/0_cpd/
+        releaseDate: "2026"
+        url: https://angledsugar.github.io/projects/0_cpd/
         summary: Zero-shot per-step failure detector for frozen π₀ / π₀.₅ VLA policies.
 
       - title: Poisoning Attacks on Multi-Agent Reinforcement Learning Systems
@@ -88,7 +84,7 @@ cv:
           - Jaehwan Cho
           - Youngmoon Lee
         publisher: "IEEE-RAS International Conference on Humanoid Robots (Humanoids), Late-Breaking Report"
-        releaseDate: 2025
+        releaseDate: "2025"
 
       - title: "HAPtics: Human Action Prediction in Real-time via Pose Kinematics"
         authors:
@@ -98,7 +94,7 @@ cv:
           - Chanyeok Choi
           - Youngmoon Lee
         publisher: "International Conference on Pattern Recognition (ICPR), Kolkata, India"
-        releaseDate: 2024
+        releaseDate: "2024"
 
       - title: Causes and Fixes of Unexpected Drone Shutoffs
         authors:
@@ -106,14 +102,14 @@ cv:
           - Chanyeok Choi
           - Youngmoon Lee
         publisher: "ACM/IEEE International Symposium on Low Power Electronics and Design (ISLPED)"
-        releaseDate: 2024
+        releaseDate: "2024"
 
       - title: "Snapbot: Enabling Dynamic Human Robot Interactions for Real-Time Computational Photography"
         authors:
           - Chanyeok Choi
           - Youngmoon Lee
         publisher: "ACM/IEEE International Conference on Human-Robot Interaction (HRI), Late-Breaking Report"
-        releaseDate: 2024
+        releaseDate: "2024"
 
       - title: "SSK-DNN: Semantic and Sentiment Knowledge for Incremental Text Sentiment Classification"
         authors:
@@ -124,19 +120,16 @@ cv:
           - Gyu Rin Kim
           - Youngmoon Lee
         publisher: IEEE ICDM Workshop on Incremental Learning (IncrLearn), Shanghai, China
-        releaseDate: 2023
+        releaseDate: "2023"
 
     Awards:
-      - title: Information & Communication Planning and Evaluation President Award (2nd place)
-        date: 2023
-        awarder: SW Talent Festival
-        summary: "*AnimeGAN Filter Photographer*: a manipulator that frames and captures stylized portraits under safety-RL constraints."
+      - name: Information & Communication Planning and Evaluation President Award (2nd place) — SW Talent Festival
+        date: "2023"
+        summary: "*AnimeGAN Filter Photographer*&#58; a manipulator that frames and captures stylized portraits under safety-RL constraints."
 
-      - title: Capstone Design Award (3rd place)
-        date: 2021
-        awarder: Hanyang University
-        url: https://github.com/Angledsugar/GuideRobotDog
-        summary: "*Guide Robot Dog*: a full-stack quadruped robot motivated by guide dogs, intended to assist visually impaired pedestrians."
+      - name: Capstone Design Award (3rd place) — Hanyang University
+        date: "2021"
+        summary: "[*Guide Robot Dog*](https://github.com/Angledsugar/GuideRobotDog)&#58; a full-stack quadruped robot motivated by guide dogs, intended to assist visually impaired pedestrians."
 
     Teaching:
       - label: Lead Teaching Assistant — Robot Vision System

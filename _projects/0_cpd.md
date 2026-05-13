@@ -44,15 +44,15 @@ We build a **zero-shot critical-phase detector** for frozen vision-language-acti
 
 ## Why this matters
 
-VLA models like π₀, OpenVLA, and RT-2 work *most of the time* on common manipulation tasks — but they fail unpredictably on **precision phases**: the last few millimeters of insertion, the alignment before a grasp, the handoff between sub-tasks. Recent work (RLT, 2026) showed that **focusing RL fine-tuning on just these critical phases is dramatically more sample-efficient** than fine-tuning the whole trajectory.
+VLA models like π₀, OpenVLA, and RT-2 work _most of the time_ on common manipulation tasks — but they fail unpredictably on **precision phases**: the last few millimeters of insertion, the alignment before a grasp, the handoff between sub-tasks. Recent work (RLT, 2026) showed that **focusing RL fine-tuning on just these critical phases is dramatically more sample-efficient** than fine-tuning the whole trajectory.
 
-The remaining question is *how to find them*. Existing answers all have a per-task cost:
+The remaining question is _how to find them_. Existing answers all have a per-task cost:
 
-| Approach | What it needs | What it costs |
-|---|---|---|
-| Supervised labeling | A human annotating each trajectory | Time, doesn't scale |
+| Approach                   | What it needs                            | What it costs                                  |
+| -------------------------- | ---------------------------------------- | ---------------------------------------------- |
+| Supervised labeling        | A human annotating each trajectory       | Time, doesn't scale                            |
 | Ground-truth success label | A boolean "task done" predicate per task | Engineer-coded for each task; doesn't transfer |
-| Reward-shaped RL | A dense reward function | Task-specific, often impossible for VLA |
+| Reward-shaped RL           | A dense reward function                  | Task-specific, often impossible for VLA        |
 
 **CPD removes all of these.** The detector reconfigures itself for a new task from **only the demos**, exploiting the fact that VLA backbones already encode "this state looks like task progress" — we just need to read it out.
 
@@ -123,17 +123,17 @@ This is the Bayes-optimal log-likelihood ratio. A step is **critical** when r<su
 
 ### Headline numbers
 
-| Backbone | Task | N demos | LOO-CV F1 | Reward separation (z-score) |
-|---|---|---|---|---|
-| π₀.₅ | LIBERO-Long task 00 | 140 | **0.889** | 4.09 |
-| π₀.₅ | LIBERO-Long task 00 | 200 | 0.86 | 4.09 |
+| Backbone | Task                | N demos | LOO-CV F1 | Reward separation (z-score) |
+| -------- | ------------------- | ------- | --------- | --------------------------- |
+| π₀.₅     | LIBERO-Long task 00 | 140     | **0.889** | 4.09                        |
+| π₀.₅     | LIBERO-Long task 00 | 200     | 0.86      | 4.09                        |
 
 The separation is essentially clean — the F1 ceiling is set by failure-pool size, not by signal quality.
 
 ## What's next
 
 - Scaling to **harder tasks** with more failure modes (LIBERO-10 with weaker backbones) — needed to escape the small-failure-pool ceiling
-- **Latent-space correction**: once a critical step is detected, project toward the nearest success-buffer latent and decode an action correction — converts CPD from a *detector* to a *controller*
+- **Latent-space correction**: once a critical step is detected, project toward the nearest success-buffer latent and decode an action correction — converts CPD from a _detector_ to a _controller_
 - Extension to **language-conditioned task transfer**: does the G2 ε threshold transfer across tasks within the same backbone?
 
 <hr/>

@@ -44,13 +44,13 @@ If a small fraction of reward signal is corrupted, can the attacker steer the gl
 ## What we find
 
 - A **non-trivial attack budget threshold** exists: below ε*, the policy degrades but the degradation is indistinguishable from training noise; above ε*, the policy collapses visibly.
-- The threshold scales with the **number of cooperating agents** — more agents means *easier* to attack, because the shared value function spreads each perturbation across more updates.
+- The threshold scales with the **number of cooperating agents** — more agents means _easier_ to attack, because the shared value function spreads each perturbation across more updates.
 - For taxi ride-sharing specifically, the attack manifests as a learned bias toward unprofitable areas, which is consistent with the corrupted reward signal but completely invisible to per-trip auditing.
 
 ## What's next
 
 - Extending from reward poisoning to **observation poisoning** (adversarial perturbations on per-agent state inputs).
-- Defenses: robust reward estimators that detect ε* before the policy collapses.
+- Defenses: robust reward estimators that detect ε\* before the policy collapses.
 
 <hr/>
 

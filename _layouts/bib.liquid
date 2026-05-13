@@ -172,7 +172,7 @@
             {%- endif -%}
           {% endfor %}
         {%- endif -%}
-        , and {% comment %}preserve trailing space before the last author{% endcomment -%}
+        , and {% comment %}preserve trailing space before the last author{% endcomment %}
         {%- if last_author_is_self -%}
           <em>
             {{- last_author.first }}
