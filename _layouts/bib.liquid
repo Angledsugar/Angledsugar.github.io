@@ -47,8 +47,19 @@
 
   <!-- Entry bib key -->
   <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+    {%- comment -%}First-author check: bold the title when the site owner is first author.{%- endcomment -%}
+    {% assign first_author = entry.author_array | first %}
+    {% assign first_author_is_self = false %}
+    {%- if first_author -%}
+      {%- assign first_author_last_name = first_author.last | regex_replace: '[*∗†‡§¶‖&^]', '' -%}
+      {% if site.scholar.last_name contains first_author_last_name %}
+        {% if site.scholar.first_name contains first_author.first %}
+          {% assign first_author_is_self = true %}
+        {% endif %}
+      {%- endif -%}
+    {%- endif -%}
     <!-- Title -->
-    <div class="title">
+    <div class="title{% if first_author_is_self %} first-author{% endif %}">
       {%- if entry.html -%}
         <a href="{{ entry.html }}">{{ entry.title }}</a>
       {%- else -%}

@@ -88,6 +88,11 @@ ul.task-list input[type="checkbox"] {
       }
     }
   }
+
+  // Lift the about-page profile photo so its top aligns with the page title.
+  .post > article > .profile {
+    margin-top: -4rem;
+  }
 }
 
 // CV
