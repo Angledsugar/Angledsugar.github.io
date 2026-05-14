@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Preprint released&#58; "Critical-Phase Detection for Vision-Language-Action Policies" (under review).
+Preprint released&#58; "Self-Supervised Critical Phase Detection for VLA Refinement" (under review).

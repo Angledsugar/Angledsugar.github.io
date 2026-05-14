@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Critical-Phase Detection for Vision-Language-Action Policies
+title: Self-Supervised Critical Phase Detection for VLA Refinement
 description: Preprint, under review.
-img: assets/img/projects/cpd/overview.png
+img: assets/img/projects/cpd/hero.png
 importance: 0
 category: research
 abbr: 2026
@@ -31,110 +31,141 @@ related_publications: true
 
 ## TL;DR
 
-We build a **zero-shot critical-phase detector** for frozen vision-language-action policies. Given just **5–20 expert demonstrations** and a frozen π₀ / π₀.₅ backbone, we automatically identify which rollout steps a robot is most likely to fail at — **no human labels, no task-specific reward, no per-task tuning**. On LIBERO-Long manipulation, we reach **leave-one-out F1 of 0.86–0.89** for trajectory-level failure detection.
+A frozen vision-language-action (VLA) policy can _believe_ it has finished a sub-task while the end-effector is still kinematically stalled — peg hovering above the hole, gripper closed on air. We call this failure mode **premature commitment** and detect it _step-by-step_ from demos alone, with **no labels, no success oracle, and no per-task reward**.
+
+The detector reads two estimators of the same quantity — normalized task progress — off two different sensors. The VLA's action-expert pre-head hidden state gives us the policy's **belief** about progress; proprioception gives us the **physical** progress. Their disagreement $\delta_t = \hat\pi_t - \pi^*_t$ is the **execution gap**, and $\delta_t > 0$ marks a step where the latent has run ahead of the kinematics. On top of the same signal we add a $\sim 1\text{K}$-parameter residual adapter that refines actions only inside the detected critical phases.
 
 <div class="row mt-4">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/overview.png" title="CPD pipeline overview" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/hero.png" title="Execution-gap pipeline" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
-    <strong>Pipeline.</strong> A temporal-distance encoder φ maps raw proprioception to a 64-D task-progress latent. A self-supervised G2 labeler splits rollouts into success / failure buffers using only the geometry of the demo end-states. Per-buffer KDEs produce a Bayes-optimal log-ratio score r<sub>t</sub> at every step; a 3-step debounce marks the critical phase. Training (left, blue) is one-shot from demos; inference (right, red) is per-step on a fresh rollout.
+    <strong>Pipeline.</strong> Proprioceptive state s<sub>t</sub> and the VLA action-expert pre-head hidden z<sup>vla</sup><sub>t</sub> are independently mapped onto a shared demo phase space [0, 1] by two small self-supervised estimators f<sub>s</sub>, f<sub>z</sub>. The execution gap δ<sub>t</sub> = π̂<sub>t</sub> − π*<sub>t</sub> is a per-step scalar; δ<sub>t</sub> > τ marks a critical phase, and a low-rank residual adapter refines actions only there.
 </div>
 
-## Why this matters
+## Demos
 
-VLA models like π₀, OpenVLA, and RT-2 work _most of the time_ on common manipulation tasks — but they fail unpredictably on **precision phases**: the last few millimeters of insertion, the alignment before a grasp, the handoff between sub-tasks. Recent work (RLT, 2026) showed that **focusing RL fine-tuning on just these critical phases is dramatically more sample-efficient** than fine-tuning the whole trajectory.
-
-The remaining question is _how to find them_. Existing answers all have a per-task cost:
-
-| Approach                   | What it needs                            | What it costs                                  |
-| -------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| Supervised labeling        | A human annotating each trajectory       | Time, doesn't scale                            |
-| Ground-truth success label | A boolean "task done" predicate per task | Engineer-coded for each task; doesn't transfer |
-| Reward-shaped RL           | A dense reward function                  | Task-specific, often impossible for VLA        |
-
-**CPD removes all of these.** The detector reconfigures itself for a new task from **only the demos**, exploiting the fact that VLA backbones already encode "this state looks like task progress" — we just need to read it out.
-
-## Method
-
-### Temporal-distance latent representation (TLDR)
-
-We learn a 64-D encoder φ on the proprioception of demos with a contrastive triplet loss: states that are close in **time within the same demo** are pulled together, states that are far apart are pushed apart. This collapses irrelevant variation (initial poses, recovery wiggles) and lines up trajectories on a 1-D progress coordinate.
+Per-step critical-phase detection on two LIBERO-Long rollouts, π₀.₅ backbone. Top: rollout frames synced to the timeline. Middle / bottom: smoothed progress rate and gap magnitude. Shaded bands are the detected critical phases (where $\delta_t$ exceeds the demo-derived 95-quantile threshold).
 
 <div class="row mt-3">
-    <div class="col-sm-10 offset-sm-1">
-        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/triplet_sampling.png" title="Triplet sampling" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Triplet sampling within a demo: anchor s<sub>t<sub>a</sub></sub> is pulled toward a nearby positive s<sub>t<sub>p</sub></sub> (k<sub>pos</sub> = 2 steps ahead) and pushed away from a far negative s<sub>t<sub>n</sub></sub> (K<sub>neg</sub> ≥ 20 steps ahead). Both come from the same trajectory — no extra demos needed.
-</div>
-
-### G2 self-supervised labeler
-
-Given a rollout from a frozen VLA policy, we don't know whether it succeeded — that's what an oracle predicate would tell us. Instead, we check whether the rollout's **final encoded state** lands inside the cluster of demo end-states in latent space:
-
-$$
-\ell_{G2}(\tau) = \mathbb{1}\big[\| \varphi(s_T) - g \| < \varepsilon \big]
-$$
-
-where g is the demo end-state centroid and ε is set automatically from demo statistics. **No tunable threshold, no per-task constants.** Theorem 1 in the paper proves this label converges to the ground-truth success predicate as the number of demos grows, under mild Lipschitz / ρ-cover assumptions on φ.
-
-### Per-step critical score
-
-Rollouts split by G2 into success buffer 𝐵<sub>+</sub> and failure buffer 𝐵<sub>−</sub>. We fit separate kernel density estimates and define
-
-$$
-r_t = \log \tilde{f}_+(z_t) - \log \tilde{f}_-(z_t)
-$$
-
-This is the Bayes-optimal log-likelihood ratio. A step is **critical** when r<sub>t</sub> < 0 for at least 3 consecutive steps (debouncing single-step noise). Trajectory-level rules — longest critical run, total critical-step count, critical fraction — are derived from this per-step signal.
-
-## Results on LIBERO-Long (task 00, π₀.₅ backbone, 200 rollouts)
-
-### Detection F1 scales with demos
-
-<div class="row mt-3">
-    <div class="col-sm-10 offset-sm-1">
-        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/loocv_f1_vs_n.png" title="LOO-CV F1 vs N" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Leave-one-out cross-validated F1 across three trajectory-level rules. F1 climbs from ~0.75 (N=10 demos) to ~0.88 (N=140) and then plateaus. The plateau is <strong>not</strong> a signal saturation — it's a denominator artifact: task 00 has only 13 failures in 200 rollouts, so the maximum recoverable F1 is bounded.
-</div>
-
-### Per-step critical phase: success vs failure cases
-
-<div class="row mt-3">
-    <div class="col-sm">
-        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/cp_ep115_success.png" title="Clean success — ep115" class="img-fluid rounded z-depth-1" %}
+    <div class="col-md-6">
+        {% include video.liquid path="assets/video/cpd_bottleneck_demo000.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true loop=true muted=true preload="metadata" poster="/assets/img/projects/cpd/bottleneck_demo000.png" %}
         <div class="caption">
-            <strong>ep115 (success).</strong> Only 7 critical steps (2.7%). CPD correctly says "fine".
+            <strong>Rollout #000.</strong> Critical phases concentrate around the contact-rich grasp and the final alignment.
         </div>
     </div>
-    <div class="col-sm">
-        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/cp_ep068_failure.png" title="Clean failure — ep068" class="img-fluid rounded z-depth-1" %}
+    <div class="col-md-6">
+        {% include video.liquid path="assets/video/cpd_bottleneck_demo250.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true loop=true muted=true preload="metadata" poster="/assets/img/projects/cpd/bottleneck_demo250.png" %}
         <div class="caption">
-            <strong>ep068 (failure).</strong> 93% critical steps, longest run = 485. The robot enters a critical region early and never escapes.
+            <strong>Rollout #250 (T = 388).</strong> Multiple critical phases — the policy keeps committing prematurely whenever a new sub-task begins.
         </div>
     </div>
 </div>
 
-### Headline numbers
+## Why precision phases break VLAs
 
-| Backbone | Task                | N demos | LOO-CV F1 | Reward separation (z-score) |
-| -------- | ------------------- | ------- | --------- | --------------------------- |
-| π₀.₅     | LIBERO-Long task 00 | 140     | **0.889** | 4.09                        |
-| π₀.₅     | LIBERO-Long task 00 | 200     | 0.86      | 4.09                        |
+VLA backbones like π₀, π₀.₅, OpenVLA, and RT-2 handle the bulk of a manipulation rollout — then fail unpredictably on the last few millimeters. Looking step-by-step, two visually similar but semantically different dwellings appear:
 
-The separation is essentially clean — the F1 ceiling is set by failure-pool size, not by signal quality.
+| Phase                      | What the policy is doing                                          | What the kinematics show       | Should we intervene?                         |
+| -------------------------- | ----------------------------------------------------------------- | ------------------------------ | -------------------------------------------- |
+| **Compliant fine-control** | "I'm in a contact-rich phase, slow down." Latent advances slowly. | EE moves slowly, in agreement. | **No.** This is correct behavior.            |
+| **Premature commitment**   | "Sub-goal done, move on." Latent advances.                        | EE is stalled or misaligned.   | **Yes.** Policy is acting on a false belief. |
+
+Region-binary success metrics (LIBERO's "did the gripper end inside the goal region?") compress this distinction away — a 0.5 mm misalignment that downstream recovers from still counts as success, and the step where the policy first committed prematurely is invisible. Step-level detection is the prerequisite for step-level refinement.
+
+## Self-supervised gap detection
+
+The central observation is asymmetric: **kinematic state cannot lie, VLA latent can**. Joint encoders report the actual end-effector pose up to sub-mm noise. The VLA's internal latent is a _belief_ — under distribution shift (sensor noise, contact uncertainty, novel object pose) it can be wrong, and "I have finished aligning" is exactly the kind of wrong it can be.
+
+We read both signals as estimators of the _same_ quantity — normalized demo phase $p \in [0, 1]$ — so they are directly comparable. Training is self-supervised on demo time itself:
+
+$$
+\mathcal{L}_z = \sum_{n, t} \bigl(f_z(z^{\text{vla},(n)}_t) - t/T_n\bigr)^2, \qquad
+\mathcal{L}_s = \sum_{n, t} \bigl(f_s(s^{(n)}_t) - t/T_n\bigr)^2.
+$$
+
+No external labels, no success oracle. The critical phase set uses a quantile threshold over the demo distribution:
+
+$$
+\mathcal{C} = \{t : \delta_t > \tau\}, \quad \tau = \mathrm{Quantile}_{0.95}\bigl(\{\delta_t^{\text{demo}}\}\bigr).
+$$
+
+<div class="row mt-3">
+    <div class="col-sm-10 offset-sm-1">
+        {% include figure.liquid loading="eager" path="assets/img/projects/cpd/compare_defs.png" title="Comparing critical-phase definitions" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Comparing critical-phase definitions on a single LIBERO-Long rollout. The bottom panel attributes each step to BN-only (kinematic-only signal), KDE-only (latent-only signal), Both, or neither — motivating why the <em>disagreement</em> between the two sensors is the right step-level quantity rather than either sensor alone.
+</div>
+
+## Gap-to-failure chain (Theorem 1)
+
+The detector is justified by a short logical chain. Under three natural assumptions:
+
+- **(A1)** Kinematic state is the ground truth of physical reality (up to measurement noise).
+- **(A2)** Demo trajectories are samples of the success manifold $\mathcal{M}^*$.
+- **(A3)** VLA action is a function of internal latent: $a_t \sim p(a \mid z^{\text{vla}}_t)$.
+
+**Theorem 1 (gap-to-failure consistency).** _Under (A1)–(A3), if $\delta_t > 0$ over interval $[t_1, t_2]$ with positive cumulative gap, then $s_{t*2} \notin \mathcal{M}^\*$.*
+
+The proof is an 8-step chain in which each implication is justified by exactly one of the three assumptions. Intuition: the VLA outputs the action that belongs to phase 0.85 (per A3); that action only completes its intended transition when the kinematic state is also at phase 0.85 (per A2); but the kinematics are actually at 0.70 (per A1) — so the transition fails and the state leaves the demo manifold. When (A2) is weakened to "demo phase is one sufficient condition among many" — free-space pick, multi-modal goals — the chain generalizes to a probabilistic **Theorem 1′**.
+
+## Residual refinement with a hybrid gate
+
+Detection alone is not the goal. On top of the frozen VLA we add a rank-8 residual adapter ($\approx 1\text{K}$ trainable parameters, zero-initialized):
+
+$$
+a_t = \pi_{\text{base}}(o_t) + g_t \cdot \Delta a_t, \quad
+\Delta a_t = W_{\text{up}} \, \mathrm{ReLU}(W_{\text{down}} \, \phi(o_t)).
+$$
+
+The design question is _when_ the adapter releases control back to the base policy. Two desiderata are in tension:
+
+- **(P) Pareto-safety.** Outside $\mathcal{C}$, $a_t = \pi_{\text{base}}(o_t)$ **bit-exact** — not "small," but identically the base action.
+- **(S) Boundary smoothness.** Around the entry/exit of $\mathcal{C}$, small observation perturbations must produce small action changes — $a$ has a finite Lipschitz constant.
+
+We prove that **neither mechanism alone suffices**:
+
+| Mechanism                                                                              | Property it guarantees                           | Why the other can't replace it                                                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| Sparsity penalty $\lambda \, \|\Delta a_t\|^2$ in training loss                        | $\|\Delta a\| \le G / (2\lambda)$ — gives (S)    | Lemma 1: ReLU MLPs are generically nonzero on every open set, so no penalty can force bit-exact zero. |
+| Hysteresis hard gate $g_t \in \{0, 1\}$, band $\tau_{\text{low}} < \tau_{\text{high}}$ | Bit-exact zero outside $\mathcal{C}$ — gives (P) | Lemma 2: at a regular boundary point, a hard switch with unbounded magnitude has Lipschitz $\infty$.  |
+
+**Lemma 3** then gives the explicit hybrid bound:
+
+$$
+L \le L_{\text{base}} + L_\Delta + \frac{G \, \|\nabla \delta\|_\infty}{4 \, \lambda \, \epsilon},
+$$
+
+where $\epsilon = (\tau_{\text{high}} - \tau_{\text{low}}) / 2$ is the hysteresis half-band. Both knobs enter the same bound — the trade-off between correction strength and smoothness becomes explicit and tunable.
+
+The intuition box in the appendix maps this onto lane-keeping assist: magnitude limiting without an on/off switch leaks corrective torque even during clean driving (Lemma 1); on/off without magnitude limiting jerks the wheel when it engages (Lemma 2); production LKA combines both (Lemma 3).
+
+## Experiments (in progress)
+
+|           | Value                                                                |
+| --------- | -------------------------------------------------------------------- |
+| Benchmark | LIBERO-Long (`libero_10`), contact-rich subset                       |
+| Backbones | π₀, π₀.₅_libero (frozen), action-expert pre-head hook                |
+| Demos     | $N = 50$ per task ($500$ across 10 tasks)                            |
+| Adapter   | rank $r = 8$, $\approx 1\text{K}$ trainable params, backbone frozen  |
+| Training  | model-based dynamics rollout, or PPO with $r_t = -\max(0, \delta_t)$ |
+
+Primary metrics:
+
+- **(P) verification** — $\|a_t - \pi_{\text{base}}(o_t)\|_\infty < 10^{-7}$ on every $g_t = 0$ step.
+- **(S) verification** — measured Lipschitz constant inside the Lemma 3 bound.
+- **Refinement effectiveness** — $\delta_t$ reduction inside $\mathcal{C}$; success-rate delta vs no-adapter baseline; EE alignment error in mm.
+- **Phase discrimination** — z-score / ROC-AUC separating compliant fine-control from premature commitment.
 
 ## What's next
 
-- Scaling to **harder tasks** with more failure modes (LIBERO-10 with weaker backbones) — needed to escape the small-failure-pool ceiling
-- **Latent-space correction**: once a critical step is detected, project toward the nearest success-buffer latent and decode an action correction — converts CPD from a _detector_ to a _controller_
-- Extension to **language-conditioned task transfer**: does the G2 ε threshold transfer across tasks within the same backbone?
+- Probabilistic Theorem 1′ on free-space / multi-modal goal tasks.
+- Cross-task phase-predictor generalization on LIBERO-10 with weaker backbones.
+- Real-robot transfer (LIBERO sim → physical robot), where (A1) sensor lie-impossibility needs quantitative validation under partial observability.
+- Task-adaptive $(\tau_{\text{high}}, \tau_{\text{low}}, k, \lambda)$.
 
 <hr/>
 
@@ -142,7 +173,7 @@ The separation is essentially clean — the F1 ceiling is set by failure-pool si
 
 ```bibtex
 @article{choi2026cpd,
-  title   = {Critical-Phase Detection for Vision-Language-Action Policies},
+  title   = {Self-Supervised Critical Phase Detection for VLA Refinement},
   author  = {Choi, Chanyeok and Lee, Youngmoon},
   journal = {Preprint},
   year    = {2026},

@@ -5,15 +5,15 @@
   abbr        = {Preprint},
   bibtex_show = {true},
   selected    = {true},
-  title       = {Critical-Phase Detection for Vision-Language-Action Policies},
+  title       = {Self-Supervised Critical Phase Detection for VLA Refinement},
   author      = {Choi, Chanyeok and Lee, Youngmoon},
   journal     = {Preprint},
   year        = {2026},
   note        = {Preprint, under review},
   html        = {/projects/0_cpd/},
   code        = {https://github.com/Angledsugar/critical-phase-detector},
-  abstract    = {We introduce a zero-shot critical-phase detector (CPD) for frozen vision-language-action policies. CPD couples a temporal-distance latent representation (TLDR) encoder with a self-supervised goal-reachability (G2) labeler, then scores each rollout step by a kernel-density log-ratio between the success and failure latent buffers. On LIBERO-Long with frozen π₀ and π₀.₅ backbones, CPD attains a leave-one-out F1 of 0.86--0.89 for trajectory-level failure detection without any task-specific reward or success label, and we prove a consistency bound between the G2 self-label and the ground-truth success predicate under mild assumptions on the latent geometry.},
-  keywords    = {vision-language-action, manipulation, failure detection, self-supervised learning, LIBERO}
+  abstract    = {Frozen vision-language-action (VLA) policies fail unpredictably on precision phases of contact-rich manipulation: their internal latent advances past a sub-goal while the end-effector remains kinematically stalled — we call this failure mode premature commitment. We detect it step-by-step in a fully self-supervised way by reading two estimators of the same quantity — normalized demo phase — off two different sensors: the action-expert pre-head hidden state (policy belief) and proprioception (physical reality). Their disagreement δ_t is the execution gap; under three natural assumptions on kinematic ground-truth, the demo manifold, and policy determinism, δ_t > 0 deterministically implies departure from the success manifold (Theorem 1). On top of the same signal we add a rank-8 residual adapter (≈ 1K parameters) that refines actions only inside the detected critical phases. We prove that the return-to-base mechanism requires both a training-time sparsity regularizer and an inference-time hysteresis hard gate — neither suffices alone — yielding bit-exact Pareto-safety and bounded-Lipschitz smoothness (Lemmas 1–3). We validate on LIBERO-Long with π_0 and π_0.5 backbones.},
+  keywords    = {vision-language-action, manipulation, critical phase detection, self-supervised learning, residual policy learning, hysteresis control, LIBERO}
 }
 
 @inproceedings{choi2025poisoning,
