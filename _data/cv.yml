@@ -111,6 +111,16 @@ cv:
         publisher: "ACM/IEEE International Conference on Human-Robot Interaction (HRI), Late-Breaking Report"
         releaseDate: "2024"
 
+      - title: Leveraging Keypoints as Dynamic Centroids for Unified Representation of Human Pose and Instance Segmentation
+        authors:
+          - Niaz Ahmad
+          - Jawad Khan
+          - Chanyeok Choi
+          - Youngmoon Lee
+          - Kang G. Shin
+        publisher: "Preprint (withdrawn from CVPR 2024)"
+        releaseDate: "2023"
+
       - title: "SSK-DNN: Semantic and Sentiment Knowledge for Incremental Text Sentiment Classification"
         authors:
           - Jawad Khan
