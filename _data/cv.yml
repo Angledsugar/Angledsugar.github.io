@@ -12,7 +12,7 @@ cv:
 
   sections:
     Profile:
-      - Robot engineer working on **critical-phase detection** for vision-language-action policies (CoRL 2026, under review). Broader interests&#58; safe and generalizable robot learning, multi-agent reinforcement learning, and sim-to-real transfer. Previously built field-deployed service robots (auto-climbing mopping platform, autonomous delivery platform) — most of my intuition about real-world control and edge cases comes from there.
+      - Robot engineer working on **critical-phase detection** for vision-language-action policies (preprint, under review). Broader interests&#58; safe and generalizable robot learning, multi-agent reinforcement learning, and sim-to-real transfer. Previously built field-deployed service robots (auto-climbing mopping platform, autonomous delivery platform) — most of my intuition about real-world control and edge cases comes from there.
 
     Education:
       - institution: Hanyang University
@@ -47,7 +47,7 @@ cv:
         summary: >
           Robot learning research under Prof. Youngmoon Lee.
         highlights:
-          - "**Critical-Phase Detection (CPD)**: zero-shot failure detection for frozen π₀ / π₀.₅ VLA policies on LIBERO manipulation. Leave-one-out F1 0.86–0.89 with no per-task reward (CoRL 2026, under review)."
+          - "**Critical-Phase Detection (CPD)**: zero-shot failure detection for frozen π₀ / π₀.₅ VLA policies on LIBERO manipulation. Leave-one-out F1 0.86–0.89 with no per-task reward (preprint, under review)."
           - "**Poisoning attacks on multi-agent RL**: adversarial reward-poisoning study on multi-agent control, including taxi ride-sharing systems."
           - "**Safety-RL**: bridging the sim-to-real gap by allowing safe optimization and exploration during robot learning."
           - "**Vision (HumanPose)**: hybrid PoseNet/SegNet approach for crowded scenes with overlap and occlusion."
@@ -73,7 +73,7 @@ cv:
         authors:
           - Chanyeok Choi
           - Youngmoon Lee
-        publisher: "Preprint (under review at CoRL 2026)"
+        publisher: "Preprint (under review)"
         releaseDate: "2026"
         url: https://angledsugar.github.io/projects/0_cpd/
         summary: Zero-shot per-step failure detector for frozen π₀ / π₀.₅ VLA policies.

@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Submitted "Critical-Phase Detection for Vision-Language-Action Policies" to **CoRL 2026**.
+Preprint released&#58; "Critical-Phase Detection for Vision-Language-Action Policies" (under review).

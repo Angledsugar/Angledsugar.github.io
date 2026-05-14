@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Critical-Phase Detection for Vision-Language-Action Policies
-description: CoRL 2026 (under review)
+description: Preprint, under review.
 img: assets/img/projects/cpd/overview.png
 importance: 0
 category: research
@@ -17,7 +17,7 @@ related_publications: true
     <p class="mb-1"><a href="/">Chanyeok Choi</a><sup>1*</sup>, <a href="https://sites.google.com/umich.edu/youngmoonlee/home">Youngmoon Lee</a><sup>1</sup></p>
     <p class="text-muted mb-3" style="font-size: 0.9em;"><sup>1</sup> Hanyang University</p>
     <p class="mb-3">
-      <span class="badge bg-primary" style="font-size: 0.95em;">CoRL 2026 · Under review</span>
+      <span class="badge bg-primary" style="font-size: 0.95em;">Preprint · Under review</span>
     </p>
     <p>
       <a class="btn btn-outline-primary btn-sm mx-1" href="#bibtex" role="button">📄 BibTeX</a>
@@ -141,11 +141,11 @@ The separation is essentially clean — the F1 ceiling is set by failure-pool si
 ## BibTeX {#bibtex}
 
 ```bibtex
-@inproceedings{choi2026cpd,
-  title     = {Critical-Phase Detection for Vision-Language-Action Policies},
-  author    = {Choi, Chanyeok},
-  booktitle = {Conference on Robot Learning (CoRL)},
-  year      = {2026},
-  note      = {Under review},
+@article{choi2026cpd,
+  title   = {Critical-Phase Detection for Vision-Language-Action Policies},
+  author  = {Choi, Chanyeok and Lee, Youngmoon},
+  journal = {Preprint},
+  year    = {2026},
+  note    = {Under review},
 }
 ```
