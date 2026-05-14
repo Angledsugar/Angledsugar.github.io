@@ -44,11 +44,11 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "news-preprint-released-critical-phase-detection-for-vision-language-action-policies-under-review",
-          title: 'Preprint released: “Critical-Phase Detection for Vision-Language-Action Policies” (under review).',
+        },{id: "news-preprint-released-self-supervised-critical-phase-detection-for-vla-refinement-under-review",
+          title: 'Preprint released: “Self-Supervised Critical Phase Detection for VLA Refinement” (under review).',
           description: "",
-          section: "News",},{id: "projects-critical-phase-detection-for-vision-language-action-policies",
-          title: 'Critical-Phase Detection for Vision-Language-Action Policies',
+          section: "News",},{id: "projects-self-supervised-critical-phase-detection-for-vla-refinement",
+          title: 'Self-Supervised Critical Phase Detection for VLA Refinement',
           description: "Preprint, under review.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/0_cpd/";
