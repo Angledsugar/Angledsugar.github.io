@@ -44,12 +44,12 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "news-submitted-critical-phase-detection-for-vision-language-action-policies-to-corl-2026",
-          title: 'Submitted “Critical-Phase Detection for Vision-Language-Action Policies” to CoRL 2026.',
+        },{id: "news-preprint-released-critical-phase-detection-for-vision-language-action-policies-under-review",
+          title: 'Preprint released: “Critical-Phase Detection for Vision-Language-Action Policies” (under review).',
           description: "",
           section: "News",},{id: "projects-critical-phase-detection-for-vision-language-action-policies",
           title: 'Critical-Phase Detection for Vision-Language-Action Policies',
-          description: "CoRL 2026 (under review)",
+          description: "Preprint, under review.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/0_cpd/";
             },},{id: "projects-auto-climbing-mopping-robot",
