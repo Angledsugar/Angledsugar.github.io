@@ -2,7 +2,7 @@
 layout: page
 title: Poisoning Attacks on Multi-Agent Reinforcement Learning Systems
 description: Humanoids 2025 (Late-Breaking Report).
-img: assets/img/7.jpg
+img: assets/img/projects/poisoning/poisonkiller_setup.png
 importance: 3
 category: research
 abbr: 2025
@@ -20,6 +20,10 @@ related_publications: true
     <p class="mb-3">
       <span class="badge bg-primary" style="font-size: 0.95em;">Humanoids 2025 · Late-Breaking Report</span>
     </p>
+    <p>
+      <a class="btn btn-outline-primary btn-sm mx-1" href="#bibtex" role="button">📄 BibTeX</a>
+      <a class="btn btn-outline-primary btn-sm mx-1" href="https://github.com/RAISELab/MAPA" role="button" target="_blank">💻 Code</a>
+    </p>
   </div>
 </div>
 
@@ -27,34 +31,85 @@ related_publications: true
 
 ## TL;DR
 
-We study **reward-poisoning adversarial attacks** on cooperative multi-agent reinforcement learning (MARL) systems — including controllers for taxi ride-sharing fleets — and characterize the attack budgets under which policy degradation becomes observable. The result: small, well-targeted reward perturbations can steer a converged cooperative policy toward systematically degraded behavior without tripping the obvious anomaly detectors.
+A **reward-poisoning attacker agent**, trained jointly inside a multi-agent RL system, can scatter high-reward _lure points_ that drag a converged cooperative policy off-trajectory — without ever touching weights or other agents' observations. On a Unity 50×50 m crawler/lure benchmark, the same attack drops cumulative reward by **18.7% (PPO)** and **20.9% (SAC)** in the multi-agent setting; in the single-agent setting SAC collapses entirely (from 1276 → 23.93). The asymmetry has a structural cause: PPO's on-policy clipping locks the policy onto whichever lure it samples first, while SAC's off-policy + maximum-entropy replay dilutes poison samples — except when the buffer is too small to outvote a persistent attacker.
 
-## Why this matters
+<div class="row mt-4">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/projects/poisoning/poisonkiller_setup.png" title="Crawler/attacker environment" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    <strong>Setup.</strong> 50×50 m Unity environment. <em>Left</em>: baseline — crawler agents (blue stars) navigate toward green target points to maximize cumulative reward. <em>Right</em>: under attack — attacker agents place red lure points at arbitrary locations; a crawler that touches a lure receives a deceptively high reward, redirecting its policy away from the true target.
+</div>
 
-Cooperative MARL is increasingly used to coordinate fleets — ride-sharing dispatchers, warehouse robots, drone swarms. These systems share a critical assumption: the reward signal each agent observes is **trusted**. In practice, the reward comes from sensors, billing systems, or service-level metrics — all of which can be tampered with by an adversary who controls part of the data pipeline.
+## Threat model
 
-If a small fraction of reward signal is corrupted, can the attacker steer the global policy? **Yes**, and the budget required is smaller than the naive bound suggests, because cooperative policies amplify perturbations through their shared value function.
+Two agent classes coexist in one environment with **predefined, fixed reward rules**:
 
-## Setting
+| Agent        | Goal                                                | Reward structure                                           |
+| ------------ | --------------------------------------------------- | ---------------------------------------------------------- |
+| **Crawler**  | Reach the green target, maximize cumulative reward. | +100 on touching a lure (the trap); −1 on removing a lure. |
+| **Attacker** | Maximize crawler distraction.                       | +1 each time a crawler is lured.                           |
 
-- **Environment**: cooperative MARL with shared reward, including a taxi ride-sharing dispatcher with N agents.
-- **Threat model**: attacker can perturb a fraction ε of the reward observations at training time. No access to policy weights, no access to other agents' observations.
-- **Objective**: characterize the relationship between (ε, attack horizon, observed return) and quantify when the degradation becomes statistically detectable vs. when it stays hidden.
+The attacker has no access to crawler weights, no privileged sensors, no offline corruption of training data. It interacts only through the environment, by placing lure points — the same channel any other agent uses. This is what makes the attack realistic: any adversary that can _participate_ in a shared MARL environment can poison it.
 
-## What we find
+The attacker's playbook has three components:
 
-- A **non-trivial attack budget threshold** exists: below ε*, the policy degrades but the degradation is indistinguishable from training noise; above ε*, the policy collapses visibly.
-- The threshold scales with the **number of cooperating agents** — more agents means _easier_ to attack, because the shared value function spreads each perturbation across more updates.
-- For taxi ride-sharing specifically, the attack manifests as a learned bias toward unprofitable areas, which is consistent with the corrupted reward signal but completely invisible to per-trip auditing.
+1. **Reward manipulation** — inject premature rewards before the true goal, subtly altering reward _timing_ so monitoring systems see plausible learning curves.
+2. **Random behavior** — relocate the goal object to unreachable positions to break determinism and starve the crawler of stable signal.
+3. **Tempting-reward (lure) attack** — sprinkle artificially high-reward points along plausible paths, exploiting reward-addiction dynamics to collapse exploration onto the trap.
+
+## Why PPO and SAC respond differently
+
+The paper's headline result is that **PPO is structurally more vulnerable to lure-style poisoning in multi-agent settings**, despite SAC showing a marginally larger absolute drop in the multi-agent column. The reason is mechanical:
+
+- **PPO** is on-policy with a clipped surrogate objective. Once a lure perturbs the rollout distribution, the next batch over-samples the lure region; the clip then constrains policy updates _around the current (lure-biased) policy_. The result is **self-reinforcing trap capture** — the policy can't take a large enough step to escape the basin.
+- **SAC** is off-policy with maximum-entropy regularization. The replay buffer dilutes poisoned samples across thousands of clean transitions, and the entropy term forces continued exploration around any apparent optimum. Lure capture requires the attacker to flood the buffer faster than it cycles.
+
+The single-agent SAC collapse (1276 → 23.93) is the exception that proves the rule: with one crawler and one attacker, the buffer fills slowly enough that even a small number of lure samples become the dominant signal.
+
+## Results
+
+Cumulative reward at 1M training steps, averaged across crawler / attacker agents:
+
+| Scenario         | Agent    | Baseline |       Under attack |
+| ---------------- | -------- | -------: | -----------------: |
+| Multi-Agent PPO  | Crawler  |    528.4 | **429.4** (−18.7%) |
+| Multi-Agent PPO  | Attacker |        — |             −2.903 |
+| Multi-Agent SAC  | Crawler  |    971.3 | **769.9** (−20.9%) |
+| Multi-Agent SAC  | Attacker |        — |             −2.449 |
+| Single-Agent PPO | Crawler  |    647.5 | **302.5** (−53.3%) |
+| Single-Agent PPO | Attacker |        — |                 +1 |
+| Single-Agent SAC | Crawler  |     1276 | **23.93** (−98.1%) |
+| Single-Agent SAC | Attacker |        — |             −31.43 |
+
+<div class="row mt-3">
+    <div class="col-sm-10 offset-sm-1">
+        {% include figure.liquid loading="eager" path="assets/img/projects/poisoning/poisoning_result.png" title="Average reward under baseline vs. attack" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    <strong>Reward curves.</strong> Average reward versus training steps for PPO and SAC in single-agent (top) and multi-agent (bottom) environments, with and without the attacker. Attack runs show larger variance and lower asymptotes; the gap is most pronounced for single-agent SAC, where the buffer is too small to wash out lure samples.
+</div>
+
+## What this means for deployed MARL
+
+Cooperative MARL is at the core of human-interactive robotics — humanoid teams, robot taxis, drone fleets. All of them share the same exposed surface: a reward signal that comes from the environment, not from a trusted oracle. This work shows that an attacker who can _act in the environment_ — not steal weights, not corrupt logs, just participate — is sufficient to degrade learning by 18–98% depending on algorithm and setting.
+
+Two practical takeaways:
+
+- **PPO needs a clip-budget defense.** On-policy clipping is a feature, but it's also what locks the policy into a poisoned basin. Detecting trap stickiness (e.g., monitoring KL between lure-region and global policy) is a near-term defense.
+- **SAC's robustness is buffer-size dependent.** Multi-agent SAC's resilience comes from sample dilution; tune replay sizes against expected attacker throughput, or the single-agent collapse mode reappears.
 
 ## What's next
 
-- Extending from reward poisoning to **observation poisoning** (adversarial perturbations on per-agent state inputs).
-- Defenses: robust reward estimators that detect ε\* before the policy collapses.
+- **Trap-region detectors** — auxiliary monitors that flag clip-bounded KL collapse around suspicious reward clusters.
+- **Robust reward estimation** — separating per-agent intrinsic reward streams so a single corrupted channel can't dominate the shared signal.
+- **Real-robot transfer** — extending from the Unity benchmark to physical fleet scenarios (taxi ride-sharing dispatchers, multi-robot warehouses).
 
 <hr/>
 
-## BibTeX
+## BibTeX {#bibtex}
 
 ```bibtex
 @inproceedings{choi2025poisoning,

@@ -48,7 +48,7 @@ cv:
           Robot learning research under Prof. Youngmoon Lee.
         highlights:
           - "**Self-Supervised Critical Phase Detection (CPD)**: step-level premature-commitment detector and ≈ 1K-parameter residual adapter for frozen π₀ / π₀.₅ VLA policies on LIBERO; cross-modal execution gap between action-expert latent and proprioception (preprint, under review)."
-          - "**Poisoning attacks on multi-agent RL**: adversarial reward-poisoning study on multi-agent control, including taxi ride-sharing systems."
+          - "**Poisoning attacks on multi-agent RL**: reward-poisoning attacker agent on cooperative PPO/SAC crawlers in a Unity 50×50 m benchmark; 18.7%/20.9% reward drop in multi-agent PPO/SAC, up to 98.1% in single-agent SAC (Humanoids 2025 LBR)."
           - "**Safety-RL**: bridging the sim-to-real gap by allowing safe optimization and exploration during robot learning."
           - "**Vision (HumanPose)**: hybrid PoseNet/SegNet approach for crowded scenes with overlap and occlusion."
 

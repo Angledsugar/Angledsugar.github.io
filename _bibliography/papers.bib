@@ -25,8 +25,9 @@
   booktitle   = {IEEE-RAS International Conference on Humanoid Robots (Humanoids), Late-Breaking Report},
   year        = {2025},
   html        = {/projects/3_poisoning/},
-  abstract    = {We study reward-poisoning adversarial attacks on cooperative multi-agent reinforcement learning, including controllers for taxi ride-sharing fleets, and characterize the attack budgets under which policy degradation becomes observable.},
-  keywords    = {multi-agent reinforcement learning, adversarial attacks, reward poisoning}
+  code        = {https://github.com/RAISELab/MAPA},
+  abstract    = {We study reward-poisoning attacks on cooperative multi-agent reinforcement learning, where an attacker agent participates in the same environment as the cooperative crawler agents and places high-reward lure points that redirect the crawlers off-trajectory. On a Unity 50×50 m benchmark we evaluate PPO and SAC in both single- and multi-agent settings, observing cumulative-reward drops of 18.7% (multi-agent PPO) and 20.9% (multi-agent SAC), and up to 98.1% for single-agent SAC. We argue the asymmetry is structural: PPO's on-policy clipping locks the policy into the first sampled lure region, while SAC's off-policy replay buffer dilutes poison samples — except at small buffer sizes.},
+  keywords    = {multi-agent reinforcement learning, adversarial attacks, reward poisoning, PPO, SAC, humanoid robots}
 }
 
 @inproceedings{ahmad2024haptics,
