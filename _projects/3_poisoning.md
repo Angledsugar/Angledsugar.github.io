@@ -38,18 +38,37 @@ A **reward-poisoning attacker agent**, trained jointly inside a multi-agent RL s
         {% include figure.liquid loading="eager" path="assets/img/projects/poisoning/poisonkiller_setup.png" title="Crawler/attacker environment" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
-<div class="caption">
-    <strong>Setup.</strong> 50×50 m Unity environment. <em>Left</em>: baseline — crawler agents (blue stars) navigate toward green target points to maximize cumulative reward. <em>Right</em>: under attack — attacker agents place red lure points at arbitrary locations; a crawler that touches a lure receives a deceptively high reward, redirecting its policy away from the true target.
+<div class="caption" style="text-align: left;">
+    <strong>Setup.</strong> 50×50 m Unity environment. <em>Left</em>: baseline — blue crawler agents (the standard ML-Agents Crawler) navigate toward green target boxes to maximize cumulative reward. <em>Right</em>: under attack — attacker agents place red attack boxes at arbitrary locations; a crawler that touches a red box receives a deceptively high reward, redirecting its policy away from the true target.
 </div>
 
 ## Threat model
 
 Two agent classes coexist in one environment with **predefined, fixed reward rules**:
 
-| Agent        | Goal                                                | Reward structure                                           |
-| ------------ | --------------------------------------------------- | ---------------------------------------------------------- |
-| **Crawler**  | Reach the green target, maximize cumulative reward. | +100 on touching a lure (the trap); −1 on removing a lure. |
-| **Attacker** | Maximize crawler distraction.                       | +1 each time a crawler is lured.                           |
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Agent</th>
+        <th scope="col">Goal</th>
+        <th scope="col">Reward structure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Crawler</strong></td>
+        <td>Reach the green target, maximize cumulative reward.</td>
+        <td>+100 on touching a lure (the trap); −1 on removing a lure.</td>
+      </tr>
+      <tr>
+        <td><strong>Attacker</strong></td>
+        <td>Maximize crawler distraction.</td>
+        <td>+1 each time a crawler is lured.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 The attacker has no access to crawler weights, no privileged sensors, no offline corruption of training data. It interacts only through the environment, by placing lure points — the same channel any other agent uses. This is what makes the attack realistic: any adversary that can _participate_ in a shared MARL environment can poison it.
 
@@ -70,25 +89,58 @@ The single-agent SAC collapse (1276 → 23.93) is the exception that proves the 
 
 ## Results
 
-Cumulative reward at 1M training steps, averaged across crawler / attacker agents:
+Cumulative reward at 1M training steps. "Drop" is the crawler's relative reward loss; the attacker column shows the attacker's reward under the same attack run.
 
-| Scenario         | Agent    | Baseline |       Under attack |
-| ---------------- | -------- | -------: | -----------------: |
-| Multi-Agent PPO  | Crawler  |    528.4 | **429.4** (−18.7%) |
-| Multi-Agent PPO  | Attacker |        — |             −2.903 |
-| Multi-Agent SAC  | Crawler  |    971.3 | **769.9** (−20.9%) |
-| Multi-Agent SAC  | Attacker |        — |             −2.449 |
-| Single-Agent PPO | Crawler  |    647.5 | **302.5** (−53.3%) |
-| Single-Agent PPO | Attacker |        — |                 +1 |
-| Single-Agent SAC | Crawler  |     1276 | **23.93** (−98.1%) |
-| Single-Agent SAC | Attacker |        — |             −31.43 |
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Scenario</th>
+        <th scope="col" class="text-end">Crawler (baseline)</th>
+        <th scope="col" class="text-end">Crawler (attack)</th>
+        <th scope="col" class="text-end">Drop</th>
+        <th scope="col" class="text-end">Attacker (attack)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Multi-Agent PPO</td>
+        <td class="text-end">528.4</td>
+        <td class="text-end"><strong>429.4</strong></td>
+        <td class="text-end">−18.7%</td>
+        <td class="text-end">−2.903</td>
+      </tr>
+      <tr>
+        <td>Multi-Agent SAC</td>
+        <td class="text-end">971.3</td>
+        <td class="text-end"><strong>769.9</strong></td>
+        <td class="text-end">−20.9%</td>
+        <td class="text-end">−2.449</td>
+      </tr>
+      <tr>
+        <td>Single-Agent PPO</td>
+        <td class="text-end">647.5</td>
+        <td class="text-end"><strong>302.5</strong></td>
+        <td class="text-end">−53.3%</td>
+        <td class="text-end">+1</td>
+      </tr>
+      <tr>
+        <td>Single-Agent SAC</td>
+        <td class="text-end">1276</td>
+        <td class="text-end"><strong>23.93</strong></td>
+        <td class="text-end">−98.1%</td>
+        <td class="text-end">−31.43</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <div class="row mt-3">
     <div class="col-sm-10 offset-sm-1">
         {% include figure.liquid loading="eager" path="assets/img/projects/poisoning/poisoning_result.png" title="Average reward under baseline vs. attack" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
-<div class="caption">
+<div class="caption" style="text-align: left;">
     <strong>Reward curves.</strong> Average reward versus training steps for PPO and SAC in single-agent (top) and multi-agent (bottom) environments, with and without the attacker. Attack runs show larger variance and lower asymptotes; the gap is most pronounced for single-agent SAC, where the buffer is too small to wash out lure samples.
 </div>
 

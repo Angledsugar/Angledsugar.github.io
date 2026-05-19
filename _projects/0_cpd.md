@@ -40,7 +40,7 @@ The detector reads two estimators of the same quantity — normalized task progr
         {% include figure.liquid loading="eager" path="assets/img/projects/cpd/hero.png" title="Execution-gap pipeline" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
-<div class="caption">
+<div class="caption" style="text-align: left;">
     <strong>Pipeline.</strong> Proprioceptive state s<sub>t</sub> and the VLA action-expert pre-head hidden z<sup>vla</sup><sub>t</sub> are independently mapped onto a shared demo phase space [0, 1] by two small self-supervised estimators f<sub>s</sub>, f<sub>z</sub>. The execution gap δ<sub>t</sub> = π̂<sub>t</sub> − π*<sub>t</sub> is a per-step scalar; δ<sub>t</sub> > τ marks a critical phase, and a low-rank residual adapter refines actions only there.
 </div>
 
@@ -51,13 +51,13 @@ Per-step critical-phase detection on two LIBERO-Long rollouts, π₀.₅ backbon
 <div class="row mt-3">
     <div class="col-md-6">
         {% include video.liquid path="assets/video/cpd_bottleneck_demo000.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true loop=true muted=true preload="metadata" poster="/assets/img/projects/cpd/bottleneck_demo000.png" %}
-        <div class="caption">
+        <div class="caption" style="text-align: left;">
             <strong>Rollout #000.</strong> Critical phases concentrate around the contact-rich grasp and the final alignment.
         </div>
     </div>
     <div class="col-md-6">
         {% include video.liquid path="assets/video/cpd_bottleneck_demo250.mp4" class="img-fluid rounded z-depth-1" controls=true autoplay=true loop=true muted=true preload="metadata" poster="/assets/img/projects/cpd/bottleneck_demo250.png" %}
-        <div class="caption">
+        <div class="caption" style="text-align: left;">
             <strong>Rollout #250 (T = 388).</strong> Multiple critical phases — the policy keeps committing prematurely whenever a new sub-task begins.
         </div>
     </div>
@@ -96,7 +96,7 @@ $$
         {% include figure.liquid loading="eager" path="assets/img/projects/cpd/compare_defs.png" title="Comparing critical-phase definitions" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
-<div class="caption">
+<div class="caption" style="text-align: left;">
     Comparing critical-phase definitions on a single LIBERO-Long rollout. The bottom panel attributes each step to BN-only (kinematic-only signal), KDE-only (latent-only signal), Both, or neither — motivating why the <em>disagreement</em> between the two sensors is the right step-level quantity rather than either sensor alone.
 </div>
 
@@ -108,7 +108,7 @@ The detector is justified by a short logical chain. Under three natural assumpti
 - **(A2)** Demo trajectories are samples of the success manifold $\mathcal{M}^*$.
 - **(A3)** VLA action is a function of internal latent: $a_t \sim p(a \mid z^{\text{vla}}_t)$.
 
-**Theorem 1 (gap-to-failure consistency).** _Under (A1)–(A3), if $\delta_t > 0$ over interval $[t_1, t_2]$ with positive cumulative gap, then $s_{t*2} \notin \mathcal{M}^\*$.*
+<strong>Theorem 1 (gap-to-failure consistency).</strong> <em>Under (A1)–(A3), if $\delta_t > 0$ over interval $[t_1, t_2]$ with positive cumulative gap, then $s_{t_2} \notin \mathcal{M}^*$.</em>
 
 The proof is an 8-step chain in which each implication is justified by exactly one of the three assumptions. Intuition: the VLA outputs the action that belongs to phase 0.85 (per A3); that action only completes its intended transition when the kinematic state is also at phase 0.85 (per A2); but the kinematics are actually at 0.70 (per A1) — so the transition fails and the state leaves the demo manifold. When (A2) is weakened to "demo phase is one sufficient condition among many" — free-space pick, multi-modal goals — the chain generalizes to a probabilistic **Theorem 1′**.
 
