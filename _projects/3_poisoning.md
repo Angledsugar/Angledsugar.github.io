@@ -31,7 +31,7 @@ related_publications: true
 
 ## TL;DR
 
-A **reward-poisoning attacker agent**, trained jointly inside a multi-agent RL system, can scatter high-reward _lure points_ that drag a converged cooperative policy off-trajectory — without ever touching weights or other agents' observations. On a Unity 50×50 m crawler/lure benchmark, the same attack drops cumulative reward by **18.7% (PPO)** and **20.9% (SAC)** in the multi-agent setting; in the single-agent setting SAC collapses entirely (from 1276 → 23.93). The asymmetry has a structural cause: PPO's on-policy clipping locks the policy onto whichever lure it samples first, while SAC's off-policy + maximum-entropy replay dilutes poison samples — except when the buffer is too small to outvote a persistent attacker.
+A **reward-poisoning attacker agent**, trained jointly inside a multi-agent RL system, can drop one high-reward _poison cube_ per crawler that drags a converged cooperative policy off-trajectory — without ever touching weights or other agents' observations. On a Unity 50×50 m crawler benchmark, the same attack drops cumulative reward by **18.7% (PPO)** and **20.9% (SAC)** in the multi-agent setting; in the single-agent setting SAC collapses entirely (from 1276 → 23.93). The asymmetry has a structural cause: PPO's on-policy clipping locks the policy onto whichever poison cube it samples first, while SAC's off-policy + maximum-entropy replay dilutes poison samples — except when the buffer is too small to outvote a persistent attacker.
 
 <div class="row mt-4">
     <div class="col-sm mt-3 mt-md-0">
@@ -39,10 +39,10 @@ A **reward-poisoning attacker agent**, trained jointly inside a multi-agent RL s
     </div>
 </div>
 <div class="caption" style="text-align: left;">
-    <strong>Setup.</strong> 50×50 m Unity environment. <em>Left</em>: baseline — blue crawler agents (the standard ML-Agents Crawler) navigate toward green target boxes to maximize cumulative reward. <em>Right</em>: under attack — attacker agents place red attack boxes at arbitrary locations; a crawler that touches a red box receives a deceptively high reward, redirecting its policy away from the true target.
+    <strong>Setup.</strong> 50×50 m Unity environment. <em>Left</em>: baseline — blue crawler agents (the standard ML-Agents Crawler) navigate toward green target boxes to maximize cumulative reward. <em>Right</em>: under attack — a single attacker agent places one red poison cube per crawler at arbitrary locations; a crawler that touches a red cube receives a deceptively high reward, redirecting its policy away from the true target.
 </div>
 
-## Threat model
+## Reward Poisoning Attacker model
 
 Two agent classes coexist in one environment with **predefined, fixed reward rules**:
 
@@ -59,33 +59,35 @@ Two agent classes coexist in one environment with **predefined, fixed reward rul
       <tr>
         <td><strong>Crawler</strong></td>
         <td>Reach the green target, maximize cumulative reward.</td>
-        <td>+100 on touching a lure (the trap); −1 on removing a lure.</td>
+        <td>+1 on touching a green cube.</td>
       </tr>
       <tr>
         <td><strong>Attacker</strong></td>
-        <td>Maximize crawler distraction.</td>
-        <td>+1 each time a crawler is lured.</td>
+        <td>Poison the crawler's reward — pull it onto a red cube instead of the green target.</td>
+        <td>+1 when a crawler touches a red poison cube it placed.</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-The attacker has no access to crawler weights, no privileged sensors, no offline corruption of training data. It interacts only through the environment, by placing lure points — the same channel any other agent uses. This is what makes the attack realistic: any adversary that can _participate_ in a shared MARL environment can poison it.
+The attacker has no access to crawler weights, no privileged sensors, no offline corruption of training data. It interacts only through the environment, by placing poisoned reward points — the same channel any other agent uses. This is what makes the attack realistic: any adversary that can _participate_ in a shared MARL environment can poison it.
 
-The attacker's playbook has three components:
+Concretely, a **single attacker poisons one cube per crawler**:
 
-1. **Reward manipulation** — inject premature rewards before the true goal, subtly altering reward _timing_ so monitoring systems see plausible learning curves.
-2. **Random behavior** — relocate the goal object to unreachable positions to break determinism and starve the crawler of stable signal.
-3. **Tempting-reward (lure) attack** — sprinkle artificially high-reward points along plausible paths, exploiting reward-addiction dynamics to collapse exploration onto the trap.
+1. **One poison cube per crawler, random placement.** A single attacker agent spawns one red poison cube per crawler at an arbitrary position in the 50×50 m arena — one cube in the single-agent setting, _N_ cubes for _N_ crawlers in the multi-agent setting. The green target is left untouched: the crawler's true goal still exists; the poison cube simply competes with it.
+2. **Indistinguishable reward.** A crawler that touches the red cube collects the same high reward it would earn from the real green target, so at the reward level the poison is indistinguishable from a legitimate goal.
+3. **Learned placement.** The attacker is itself an RL agent: it earns +1 only when a crawler reaches its red poison cube instead of the green target. Over training it learns where to drop each cube to capture the crawlers' trajectories most reliably.
+
+The single- vs multi-agent axis in our experiments is therefore a property of the **crawler population** — one crawler versus many — while the attacker remains a single agent throughout.
 
 ## Why PPO and SAC respond differently
 
-The paper's headline result is that **PPO is structurally more vulnerable to lure-style poisoning in multi-agent settings**, despite SAC showing a marginally larger absolute drop in the multi-agent column. The reason is mechanical:
+The paper's headline result is that **PPO is structurally more vulnerable to reward poisoning in multi-agent settings**, despite SAC showing a marginally larger absolute drop in the multi-agent column. The reason is mechanical:
 
-- **PPO** is on-policy with a clipped surrogate objective. Once a lure perturbs the rollout distribution, the next batch over-samples the lure region; the clip then constrains policy updates _around the current (lure-biased) policy_. The result is **self-reinforcing trap capture** — the policy can't take a large enough step to escape the basin.
-- **SAC** is off-policy with maximum-entropy regularization. The replay buffer dilutes poisoned samples across thousands of clean transitions, and the entropy term forces continued exploration around any apparent optimum. Lure capture requires the attacker to flood the buffer faster than it cycles.
+- **PPO** is on-policy with a clipped surrogate objective. Once the poison perturbs the rollout distribution, the next batch over-samples the poisoned region; the clip then constrains policy updates _around the current (poison-biased) policy_. The result is **self-reinforcing trap capture** — the policy can't take a large enough step to escape the basin.
+- **SAC** is off-policy with maximum-entropy regularization. The replay buffer dilutes poisoned samples across thousands of clean transitions, and the entropy term forces continued exploration around any apparent optimum. Poison capture requires the attacker to flood the buffer faster than it cycles.
 
-The single-agent SAC collapse (1276 → 23.93) is the exception that proves the rule: with one crawler and one attacker, the buffer fills slowly enough that even a small number of lure samples become the dominant signal.
+The single-agent SAC collapse (1276 → 23.93) is the exception that proves the rule: with one crawler and one attacker, the buffer fills slowly enough that even a small number of poison samples become the dominant signal.
 
 ## Results
 
@@ -141,7 +143,7 @@ Cumulative reward at 1M training steps. "Drop" is the crawler's relative reward 
     </div>
 </div>
 <div class="caption" style="text-align: left;">
-    <strong>Reward curves.</strong> Average reward versus training steps for PPO and SAC in single-agent (top) and multi-agent (bottom) environments, with and without the attacker. Attack runs show larger variance and lower asymptotes; the gap is most pronounced for single-agent SAC, where the buffer is too small to wash out lure samples.
+    <strong>Reward curves.</strong> Average reward versus training steps for PPO and SAC in single-agent (top) and multi-agent (bottom) environments, with and without the attacker. Attack runs show larger variance and lower asymptotes; the gap is most pronounced for single-agent SAC, where the buffer is too small to wash out poison samples.
 </div>
 
 ## What this means for deployed MARL
@@ -150,7 +152,7 @@ Cooperative MARL is at the core of human-interactive robotics — humanoid teams
 
 Two practical takeaways:
 
-- **PPO needs a clip-budget defense.** On-policy clipping is a feature, but it's also what locks the policy into a poisoned basin. Detecting trap stickiness (e.g., monitoring KL between lure-region and global policy) is a near-term defense.
+- **PPO needs a clip-budget defense.** On-policy clipping is a feature, but it's also what locks the policy into a poisoned basin. Detecting trap stickiness (e.g., monitoring KL between the poisoned region and the global policy) is a near-term defense.
 - **SAC's robustness is buffer-size dependent.** Multi-agent SAC's resilience comes from sample dilution; tune replay sizes against expected attacker throughput, or the single-agent collapse mode reappears.
 
 ## What's next
