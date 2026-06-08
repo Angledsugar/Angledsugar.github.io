@@ -9,6 +9,7 @@ abbr: 2026
 year: 2026
 authors: Chanyeok Choi, Youngmoon Lee
 github: https://github.com/Angledsugar/critical-phase-detector
+redirect: https://angledsugar.github.io/critical-phase-detection-page/
 related_publications: true
 ---
 

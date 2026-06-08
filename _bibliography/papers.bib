@@ -10,7 +10,7 @@
   journal     = {Preprint},
   year        = {2026},
   note        = {Preprint, under review},
-  html        = {/projects/0_cpd/},
+  html        = {https://angledsugar.github.io/critical-phase-detection-page/},
   code        = {https://github.com/Angledsugar/critical-phase-detector},
   abstract    = {Frozen vision-language-action (VLA) policies fail unpredictably on precision phases of contact-rich manipulation: their internal latent advances past a sub-goal while the end-effector remains kinematically stalled — we call this failure mode premature commitment. We detect it step-by-step in a fully self-supervised way by reading two estimators of the same quantity — normalized demo phase — off two different sensors: the action-expert pre-head hidden state (policy belief) and proprioception (physical reality). Their disagreement δ_t is the execution gap; under three natural assumptions on kinematic ground-truth, the demo manifold, and policy determinism, δ_t > 0 deterministically implies departure from the success manifold (Theorem 1). On top of the same signal we add a rank-8 residual adapter (≈ 1K parameters) that refines actions only inside the detected critical phases. We prove that the return-to-base mechanism requires both a training-time sparsity regularizer and an inference-time hysteresis hard gate — neither suffices alone — yielding bit-exact Pareto-safety and bounded-Lipschitz smoothness (Lemmas 1–3). We validate on LIBERO-Long with π_0 and π_0.5 backbones.},
   keywords    = {vision-language-action, manipulation, critical phase detection, self-supervised learning, residual policy learning, hysteresis control, LIBERO}

@@ -75,7 +75,7 @@ cv:
           - Youngmoon Lee
         publisher: "Preprint (under review)"
         releaseDate: "2026"
-        url: https://angledsugar.github.io/projects/0_cpd/
+        url: https://angledsugar.github.io/critical-phase-detection-page/
         summary: Self-supervised step-level critical-phase detector and ≈ 1K-parameter residual adapter that refines frozen π₀ / π₀.₅ VLA policies inside detected phases.
 
       - title: Poisoning Attacks on Multi-Agent Reinforcement Learning Systems

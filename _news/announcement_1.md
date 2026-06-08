@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Preprint released&#58; "Self-Supervised Critical Phase Detection for VLA Refinement" (under review).
+Preprint released&#58; "[Self-Supervised Critical Phase Detection for VLA Refinement](https://angledsugar.github.io/critical-phase-detection-page/)" (under review).
