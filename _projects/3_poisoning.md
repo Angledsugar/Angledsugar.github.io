@@ -8,6 +8,7 @@ category: research
 abbr: 2025
 year: 2025
 authors: Chanyeok Choi, Jaehwan Cho, Youngmoon Lee
+redirect: https://angledsugar.github.io/MAPA
 related_publications: true
 ---
 

@@ -85,6 +85,7 @@ cv:
           - Youngmoon Lee
         publisher: "IEEE-RAS International Conference on Humanoid Robots (Humanoids), Late-Breaking Report"
         releaseDate: "2025"
+        url: https://angledsugar.github.io/MAPA
 
       - title: "HAPtics: Human Action Prediction in Real-time via Pose Kinematics"
         authors:
