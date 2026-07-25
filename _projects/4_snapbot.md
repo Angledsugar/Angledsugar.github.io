@@ -9,6 +9,7 @@ abbr: 2024
 year: 2024
 authors: Chanyeok Choi, Youngmoon Lee
 related_publications: true
+redirect: https://angledsugar.github.io/snapbot/
 ---
 
 <div class="row">
